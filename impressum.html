@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impressum – Ursula Winkler</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Great+Vibes&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --clr-deep:    #1E1040;
+            --clr-dark:    #2D1B69;
+            --clr-mid:     #4B3F8C;
+            --clr-main:    #6B4FA3;
+            --clr-light:   #9B7EC8;
+            --clr-pale:    #C9B8E8;
+            --clr-lav:     #EDE7FF;
+            --clr-cream:   #FDF8F5;
+            --clr-gold:    #C9A96E;
+            --clr-white:   #FFFFFF;
+            --clr-text:    #1A1232;
+            --clr-textmid: #3D2B6B;
+            --clr-textlt:  #7B6BA0;
+            --ff-serif:    'Cormorant Garamond', serif;
+            --ff-script:   'Great Vibes', cursive;
+            --ff-sans:     'Raleway', sans-serif;
+        }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--ff-sans); color: var(--clr-text); background: var(--clr-cream); }
+
+        /* NAV */
+        .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 1rem 5%; display: flex; align-items: center; justify-content: space-between; background: rgba(253,248,245,.95); backdrop-filter: blur(24px); box-shadow: 0 1px 24px rgba(75,63,140,.1); }
+        .nav-logo { height: 44px; }
+        .nav-back { display: inline-flex; align-items: center; gap: .5rem; font-size: .78rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--clr-main); text-decoration: none; transition: color .3s; }
+        .nav-back:hover { color: var(--clr-gold); }
+
+        /* HERO-STREIFEN */
+        .page-hero { margin-top: 72px; background: linear-gradient(135deg, var(--clr-dark) 0%, var(--clr-main) 100%); padding: 5rem 5%; text-align: center; }
+        .page-hero p { font-family: var(--ff-script); font-size: 2rem; color: var(--clr-gold); margin-bottom: .3rem; }
+        .page-hero h1 { font-family: var(--ff-serif); font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 300; color: var(--clr-white); }
+
+        /* INHALT */
+        .content { max-width: 760px; margin: 0 auto; padding: 5rem 5% 7rem; }
+        .content h2 { font-family: var(--ff-serif); font-size: 1.6rem; font-weight: 400; color: var(--clr-text); margin: 2.5rem 0 .8rem; padding-bottom: .5rem; border-bottom: 1px solid var(--clr-pale); }
+        .content h2:first-child { margin-top: 0; }
+        .content p { font-size: .97rem; line-height: 1.85; color: var(--clr-textmid); margin-bottom: .6rem; }
+        .content a { color: var(--clr-main); text-decoration: none; }
+        .content a:hover { color: var(--clr-gold); }
+        .tag-label { display: inline-block; font-size: .7rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--clr-gold); margin-bottom: 1.5rem; }
+        .tag-label::before { content: '——  '; }
+
+        /* FOOTER */
+        .footer-mini { background: var(--clr-deep); padding: 2rem 5%; text-align: center; }
+        .footer-mini p { font-size: .82rem; color: rgba(255,255,255,.45); }
+        .footer-mini a { color: rgba(255,255,255,.6); text-decoration: none; margin: 0 .8rem; }
+        .footer-mini a:hover { color: var(--clr-gold); }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+    <a href="index.html">
+        <img src="../Ursula neu/Logo/Logo Ursula Winkler Web.png" alt="Ursula Winkler" class="nav-logo">
+    </a>
+    <a href="index.html" class="nav-back"><i class="fas fa-arrow-left"></i> Zurück zur Startseite</a>
+</nav>
+
+<!-- HERO -->
+<div class="page-hero">
+    <p>Rechtliches</p>
+    <h1>Impressum</h1>
+</div>
+
+<!-- INHALT -->
+<div class="content">
+    <span class="tag-label">Angaben gemäß § 5 TMG</span>
+
+    <h2>Anbieterin</h2>
+    <p><strong>Ursula Winkler</strong></p>
+    <p>Waldstraße 10<br>77654 Offenburg</p>
+
+    <h2>Kontakt</h2>
+    <p>Telefon: <a href="tel:+4901733177765">0173 3177765</a></p>
+    <p>E-Mail: <a href="mailto:office@ursulawinkler.com">office@ursulawinkler.com</a></p>
+
+    <h2>Umsatzsteuer-ID</h2>
+    <p>Umsatzsteuer-Identifikationsnummer gemäß § 27a Umsatzsteuergesetz:<br>
+    <strong>DE213107084</strong></p>
+
+    <h2>Haftung für Inhalte</h2>
+    <p>Als Diensteanbieterin bin ich gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG bin ich als Diensteanbieterin jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.</p>
+
+    <h2>Haftung für Links</h2>
+    <p>Meine Website enthält Links zu externen Websites Dritter, auf deren Inhalte ich keinen Einfluss habe. Deshalb kann ich für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.</p>
+
+    <h2>Urheberrecht</h2>
+    <p>Die durch die Seitenbetreiberin erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung der jeweiligen Autorin.</p>
+
+    <h2>Hinweis</h2>
+    <p>Dieses Coaching ersetzt keine medizinische oder therapeutische Behandlung. Bei ernsthaften gesundheitlichen oder psychischen Beschwerden wende dich bitte an eine Ärztin, einen Arzt oder eine Fachkraft für psychische Gesundheit.</p>
+</div>
+
+<!-- FOOTER -->
+<div class="footer-mini">
+    <p>
+        <a href="index.html">Startseite</a>
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutz</a>
+    </p>
+    <p style="margin-top:.8rem;">© 2026 Ursula Winkler. Alle Rechte vorbehalten.</p>
+</div>
+
+</body>
+</html>
