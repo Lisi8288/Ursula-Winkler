@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danke! – Ursula Winkler</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --clr-deep:    #1E1040;
+            --clr-dark:    #2D1B69;
+            --clr-main:    #6B4FA3;
+            --clr-light:   #9B7EC8;
+            --clr-pale:    #C9B8E8;
+            --clr-lav:     #EDE7FF;
+            --clr-cream:   #FDF8F5;
+            --clr-gold:    #C9A96E;
+            --clr-text:    #1A1232;
+            --ff-serif:    'Cormorant Garamond', serif;
+            --ff-sans:     'Raleway', sans-serif;
+        }
+        body {
+            font-family: var(--ff-sans);
+            background: var(--clr-cream);
+            color: var(--clr-text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* NAV */
+        nav {
+            padding: 1.2rem 5%;
+            background: rgba(253,248,245,.95);
+            backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 1px 20px rgba(75,63,140,.08);
+        }
+        nav img { height: 52px; }
+
+        /* MAIN */
+        .danke-wrap {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 5%;
+        }
+        .danke-card {
+            background: white;
+            border-radius: 24px;
+            padding: 4rem 3.5rem;
+            max-width: 640px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(107,79,163,.12);
+            position: relative;
+            overflow: hidden;
+        }
+        .danke-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--clr-gold), var(--clr-light), var(--clr-gold));
+        }
+        .danke-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--clr-main), var(--clr-light));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 2rem;
+            color: white;
+        }
+        .danke-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: .8rem;
+            font-size: .7rem;
+            font-weight: 700;
+            letter-spacing: .22em;
+            text-transform: uppercase;
+            color: var(--clr-gold);
+            margin-bottom: 1rem;
+        }
+        .danke-tag::before {
+            content: '';
+            width: 28px;
+            height: 1px;
+            background: var(--clr-gold);
+        }
+        .danke-tag::after {
+            content: '';
+            width: 28px;
+            height: 1px;
+            background: var(--clr-gold);
+        }
+        .danke-title {
+            font-family: var(--ff-serif);
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 600;
+            color: var(--clr-deep);
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+        .danke-title em {
+            color: var(--clr-gold);
+            font-style: italic;
+        }
+        .danke-text {
+            font-size: 1rem;
+            line-height: 1.85;
+            color: #5a5a7a;
+            margin-bottom: 1rem;
+        }
+        .danke-info {
+            display: inline-flex;
+            align-items: center;
+            gap: .6rem;
+            background: var(--clr-lav);
+            color: var(--clr-main);
+            font-size: .88rem;
+            font-weight: 600;
+            padding: .8rem 1.6rem;
+            border-radius: 50px;
+            margin-bottom: 2.5rem;
+        }
+        .danke-info i { color: var(--clr-gold); }
+        .btn-gold {
+            display: inline-block;
+            padding: 1rem 2.4rem;
+            background: linear-gradient(135deg, var(--clr-gold), #A8804A);
+            border-radius: 50px;
+            font-size: .82rem;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: white;
+            text-decoration: none;
+            box-shadow: 0 8px 28px rgba(201,169,110,.42);
+            transition: all .3s;
+        }
+        .btn-gold:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 40px rgba(201,169,110,.55);
+        }
+        .danke-social {
+            margin-top: 2.5rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(107,79,163,.1);
+            font-size: .88rem;
+            color: #8888aa;
+        }
+        .danke-social a {
+            color: var(--clr-main);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .danke-social a:hover { color: var(--clr-gold); }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            font-size: .8rem;
+            color: #aaa;
+            border-top: 1px solid rgba(107,79,163,.08);
+        }
+        footer a { color: var(--clr-main); text-decoration: none; }
+
+        @media(max-width:600px) {
+            .danke-card { padding: 2.5rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <img src="Ursula neu/Logo/Logo Ursula Winkler Web.png" alt="Ursula Winkler">
+    <a href="index.html" style="font-size:.78rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--clr-main); text-decoration:none;">← Zurück zur Startseite</a>
+</nav>
+
+<div class="danke-wrap">
+    <div class="danke-card">
+        <div class="danke-icon">
+            <i class="fas fa-heart"></i>
+        </div>
+        <span class="danke-tag">Nachricht erhalten</span>
+        <h1 class="danke-title">Vielen <em>Dank</em> für deine Nachricht!</h1>
+        <p class="danke-text">
+            Ich freue mich sehr, dass du dich gemeldet hast. Deine Nachricht ist angekommen und ich werde mir die Zeit nehmen, dir persönlich zu antworten.
+        </p>
+        <div class="danke-info">
+            <i class="fas fa-clock"></i>
+            Ich melde mich werktags innerhalb von 48 Stunden bei dir.
+        </div>
+        <br>
+        <a href="index.html" class="btn-gold">Zurück zur Startseite</a>
+        <div class="danke-social">
+            Bis dahin — folg mir gerne auf Instagram:
+            <a href="https://www.instagram.com/ursulawinklerde" target="_blank">@ursulawinklerde</a>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <a href="impressum.html">Impressum</a> &nbsp;·&nbsp;
+    <a href="datenschutz.html">Datenschutz</a>
+</footer>
+
+</body>
+</html>
