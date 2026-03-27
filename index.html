@@ -933,7 +933,8 @@ window.addEventListener('DOMContentLoaded', function() {
                 <h2 class="section-title">Deine <em>Nachricht</em> an mich</h2>
                 <p style="color:var(--clr-textlt); margin-top:1rem; font-size:.95rem;">Füll das Formular aus und ich melde mich innerhalb von 48 Stunden bei dir.</p>
             </div>
-            <form class="kf-grid r d1" id="kontaktformular" name="kontakt" novalidate>
+            <iframe name="hidden_iframe" style="display:none"></iframe>
+            <form class="kf-grid r d1" id="kontaktformular" name="kontakt" action="https://formspree.io/f/xzdkzyba" method="POST" target="hidden_iframe" onsubmit="setTimeout(function(){window.location.href='https://ursula-winkler.com/danke.html'},500)">
                 <div class="kf-group">
                     <label for="kf-vorname">Vorname *</label>
                     <input type="text" id="kf-vorname" name="Vorname" placeholder="Dein Vorname" required>
@@ -1105,33 +1106,6 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
     a.addEventListener('click',e=>{ const t=document.querySelector(a.getAttribute('href')); if(!t)return; e.preventDefault(); window.scrollTo({top:t.getBoundingClientRect().top+scrollY-80,behavior:'smooth'}); });
 });
 
-/* ── Kontaktformular ── */
-const kf=document.getElementById('kontaktformular');
-if(kf){
-    kf.addEventListener('submit',async function(e){
-        e.preventDefault();
-        const btn=kf.querySelector('button[type="submit"]');
-        const orig=btn.textContent;
-        btn.textContent='Wird gesendet…';
-        btn.disabled=true;
-        try{
-            const res=await fetch('https://formspree.io/f/xzdkzyba',{
-                method:'POST',
-                body:new FormData(kf),
-                headers:{Accept:'application/json'}
-            });
-            if(res.ok){
-                window.location.href='https://ursula-winkler.com/danke.html';
-            }else{
-                btn.textContent='Fehler – bitte erneut versuchen';
-                btn.disabled=false;
-            }
-        }catch(err){
-            btn.textContent='Fehler – bitte erneut versuchen';
-            btn.disabled=false;
-        }
-    });
-}
 </script>
 </body>
 </html>
