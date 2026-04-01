@@ -933,8 +933,11 @@ window.addEventListener('DOMContentLoaded', function() {
                 <h2 class="section-title">Deine <em>Nachricht</em> an mich</h2>
                 <p style="color:var(--clr-textlt); margin-top:1rem; font-size:.95rem;">Füll das Formular aus und ich melde mich innerhalb von 48 Stunden bei dir.</p>
             </div>
-            <iframe name="hidden_iframe" style="display:none"></iframe>
-            <form class="kf-grid r d1" id="kontaktformular" name="kontakt" action="https://formspree.io/f/xzdkzyba" method="POST" target="hidden_iframe" onsubmit="setTimeout(function(){window.location.href='https://ursula-winkler.com/danke.html'},500)">
+            <form class="kf-grid r d1" name="kontakt" action="https://api.web3forms.com/submit" method="POST">
+                <input type="hidden" name="access_key" value="7b9b827b-78ab-4d5f-99e5-e1006bb21d6a">
+                <input type="hidden" name="redirect" value="https://ursula-winkler.com/danke.html">
+                <input type="hidden" name="subject" value="Neue Anfrage über ursulawinkler.com">
+                <input type="hidden" name="from_name" value="Ursula Winkler Website">
                 <div class="kf-group">
                     <label for="kf-vorname">Vorname *</label>
                     <input type="text" id="kf-vorname" name="Vorname" placeholder="Dein Vorname" required>
