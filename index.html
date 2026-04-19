@@ -1241,6 +1241,12 @@ window.addEventListener('DOMContentLoaded', function() {
       'ad_personalization': val,
       'analytics_storage': 'denied'  // kein Analytics auf dieser Seite
     });
+    // Ereignis in dataLayer schicken → GTM Trigger kann darauf reagieren
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      'event': 'consent_update',
+      'marketing_consent': marketing ? 'granted' : 'denied'
+    });
     if (marketing) loadGTM();
   }
 
