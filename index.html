@@ -1240,7 +1240,7 @@ window.addEventListener('DOMContentLoaded', function() {
       'ad_storage':        val,
       'ad_user_data':      val,
       'ad_personalization': val,
-      'analytics_storage': 'denied'  // kein Analytics auf dieser Seite
+      'analytics_storage': val
     });
     // Ereignis in dataLayer schicken → GTM Trigger kann darauf reagieren
     window.dataLayer = window.dataLayer || [];
