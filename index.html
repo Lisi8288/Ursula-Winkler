@@ -1040,6 +1040,7 @@ window.addEventListener('DOMContentLoaded', function() {
                     <li><a href="https://www.instagram.com/ursulawinklerde/" target="_blank" rel="noopener">Instagram: @ursulawinklerde</a></li>
                     <li><a href="impressum.html">Impressum</a></li>
                     <li><a href="datenschutz.html">Datenschutz</a></li>
+                    <li><a href="#" id="cookie-settings">Cookie-Einstellungen</a></li>
                 </ul>
             </div>
         </div>
@@ -1050,8 +1051,283 @@ window.addEventListener('DOMContentLoaded', function() {
     </div>
 </footer>
 
+<!-- ══════════════════════════════════════════════
+     DSGVO COOKIE BANNER — Consent Mode v2
+     ══════════════════════════════════════════════ -->
+<style>
+  #cb-overlay {
+    position: fixed; inset: 0; z-index: 99998;
+    background: rgba(42,20,64,.55);
+    backdrop-filter: blur(4px);
+    display: none; opacity: 0;
+    transition: opacity .35s ease;
+  }
+  #cb-overlay.cb-visible { display: block; }
+  #cb-overlay.cb-show { opacity: 1; }
+
+  #cb-banner {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    z-index: 99999;
+    background: linear-gradient(160deg, #FDF8F5 0%, #F2EBF8 100%);
+    border-top: 2px solid #C9A96E;
+    box-shadow: 0 -12px 48px rgba(107,45,130,.18);
+    padding: 1.6rem 2rem;
+    display: none;
+    transform: translateY(100%);
+    transition: transform .45s cubic-bezier(0.22,1,0.36,1);
+    font-family: 'Raleway', sans-serif;
+  }
+  #cb-banner.cb-visible { display: block; }
+  #cb-banner.cb-show { transform: translateY(0); }
+
+  .cb-inner { max-width: 1100px; margin: 0 auto; }
+
+  .cb-top {
+    display: flex; gap: 2rem; align-items: flex-start;
+    flex-wrap: wrap; margin-bottom: 1.2rem;
+  }
+  .cb-text { flex: 1; min-width: 260px; }
+  .cb-text p {
+    font-size: .88rem; line-height: 1.7; color: #2A1440; margin: 0;
+  }
+  .cb-text a { color: #6B2D82; text-decoration: underline; font-size: .82rem; }
+
+  .cb-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; font-weight: 600;
+    color: #6B2D82; margin-bottom: .5rem;
+  }
+
+  /* Toggle-Zeilen */
+  .cb-toggles { display: flex; flex-direction: column; gap: .7rem; margin-bottom: 1.2rem; }
+  .cb-toggle-row {
+    display: flex; align-items: center; gap: .9rem;
+    background: rgba(107,45,130,.06); border-radius: 10px;
+    padding: .7rem 1rem;
+  }
+  .cb-toggle-label { flex: 1; font-size: .84rem; color: #2A1440; }
+  .cb-toggle-label strong { display: block; font-size: .86rem; font-weight: 700; color: #3D1A55; }
+  .cb-toggle-label span { font-size: .78rem; color: #9B7AAE; }
+
+  /* Switch */
+  .cb-switch { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
+  .cb-switch input { opacity: 0; width: 0; height: 0; }
+  .cb-slider {
+    position: absolute; inset: 0; background: #D0C0DB;
+    border-radius: 24px; cursor: pointer;
+    transition: background .3s;
+  }
+  .cb-slider::before {
+    content: ''; position: absolute;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: #fff; left: 3px; top: 3px;
+    transition: transform .3s;
+    box-shadow: 0 1px 4px rgba(0,0,0,.2);
+  }
+  .cb-switch input:checked + .cb-slider { background: #6B2D82; }
+  .cb-switch input:checked + .cb-slider::before { transform: translateX(20px); }
+  .cb-switch input:disabled + .cb-slider { background: #C9A96E; cursor: default; }
+  .cb-switch input:disabled + .cb-slider::before { transform: translateX(20px); }
+
+  /* Buttons */
+  .cb-buttons { display: flex; gap: .8rem; flex-wrap: wrap; }
+  .cb-btn {
+    flex: 1; min-width: 130px;
+    padding: .75rem 1.4rem;
+    border-radius: 50px; border: none; cursor: pointer;
+    font-family: 'Raleway', sans-serif;
+    font-size: .8rem; font-weight: 700;
+    letter-spacing: .07em; text-transform: uppercase;
+    transition: all .3s ease;
+  }
+  .cb-btn-accept {
+    background: linear-gradient(135deg, #C9A96E, #A8804A);
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(201,169,110,.4);
+  }
+  .cb-btn-accept:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(201,169,110,.5); }
+  .cb-btn-save {
+    background: linear-gradient(135deg, #6B2D82, #9B5AB0);
+    color: #fff;
+    box-shadow: 0 6px 20px rgba(107,45,130,.35);
+  }
+  .cb-btn-save:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(107,45,130,.45); }
+  .cb-btn-reject {
+    background: transparent;
+    color: #6B2D82;
+    border: 1.5px solid #6B2D82;
+    flex: 0; min-width: 110px;
+  }
+  .cb-btn-reject:hover { background: rgba(107,45,130,.08); }
+
+  @media (max-width: 640px) {
+    #cb-banner { padding: 1.2rem 1rem; }
+    .cb-buttons { flex-direction: column; }
+    .cb-btn { min-width: unset; }
+  }
+</style>
+
+<!-- Banner Overlay -->
+<div id="cb-overlay"></div>
+
+<!-- Cookie Banner -->
+<div id="cb-banner" role="dialog" aria-modal="true" aria-label="Cookie-Einstellungen">
+  <div class="cb-inner">
+    <div class="cb-top">
+      <div class="cb-text">
+        <p class="cb-title">🍪 Deine Privatsphäre</p>
+        <p>
+          Diese Website verwendet Cookies und ähnliche Technologien.
+          Technisch notwendige Cookies sind immer aktiv.
+          Marketing-Cookies (Google Tag Manager, Google Ads) setzen wir nur mit deiner Zustimmung.
+          Mehr Infos in unserer <a href="datenschutz.html">Datenschutzerklärung</a>.
+        </p>
+      </div>
+    </div>
+
+    <div class="cb-toggles">
+      <!-- Notwendig — immer aktiv -->
+      <div class="cb-toggle-row">
+        <label class="cb-switch">
+          <input type="checkbox" checked disabled>
+          <span class="cb-slider"></span>
+        </label>
+        <div class="cb-toggle-label">
+          <strong>Technisch notwendig</strong>
+          <span>Grundfunktionen der Website — immer aktiv, keine Einwilligung erforderlich</span>
+        </div>
+      </div>
+      <!-- Marketing -->
+      <div class="cb-toggle-row">
+        <label class="cb-switch">
+          <input type="checkbox" id="cb-marketing">
+          <span class="cb-slider"></span>
+        </label>
+        <div class="cb-toggle-label">
+          <strong>Marketing &amp; Werbung</strong>
+          <span>Google Tag Manager, Google Ads Conversion Tracking — standardmäßig deaktiviert</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cb-buttons">
+      <button class="cb-btn cb-btn-accept" id="cb-accept-all">Alle akzeptieren</button>
+      <button class="cb-btn cb-btn-save"   id="cb-save">Auswahl speichern</button>
+      <button class="cb-btn cb-btn-reject" id="cb-reject-all">Alle ablehnen</button>
+    </div>
+  </div>
+</div>
+
 <script>
 'use strict';
+/* ════════════════════════════════════════════════
+   DSGVO Cookie Banner — Consent Mode v2
+   Ursula Winkler · ursula-winkler.com
+   ════════════════════════════════════════════════ */
+(function() {
+  const STORAGE_KEY = 'ursula_winkler_consent';
+  const EXPIRY_DAYS = 365;
+
+  const banner   = document.getElementById('cb-banner');
+  const overlay  = document.getElementById('cb-overlay');
+  const chkMktg  = document.getElementById('cb-marketing');
+
+  /* ── Consent Mode v2: alle 4 Signale updaten ── */
+  function applyConsent(marketing) {
+    const val = marketing ? 'granted' : 'denied';
+    gtag('consent', 'update', {
+      'ad_storage':        val,
+      'ad_user_data':      val,
+      'ad_personalization': val,
+      'analytics_storage': 'denied'  // kein Analytics auf dieser Seite
+    });
+    if (marketing) loadGTM();
+  }
+
+  /* ── Einwilligung speichern ── */
+  function saveConsent(marketing) {
+    const data = {
+      marketing:  marketing,
+      timestamp:  new Date().toISOString(),
+      version:    '1.0',
+      expires:    Date.now() + EXPIRY_DAYS * 86400000
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    applyConsent(marketing);
+    closeBanner();
+  }
+
+  /* ── Banner öffnen / schließen ── */
+  function openBanner() {
+    overlay.classList.add('cb-visible');
+    banner.classList.add('cb-visible');
+    requestAnimationFrame(() => {
+      overlay.classList.add('cb-show');
+      banner.classList.add('cb-show');
+    });
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeBanner() {
+    banner.classList.remove('cb-show');
+    overlay.classList.remove('cb-show');
+    setTimeout(() => {
+      banner.classList.remove('cb-visible');
+      overlay.classList.remove('cb-visible');
+      document.body.style.overflow = '';
+    }, 450);
+  }
+
+  /* ── Gespeicherte Einwilligung laden ── */
+  function loadSaved() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return null;
+      const data = JSON.parse(raw);
+      if (data.expires && Date.now() > data.expires) {
+        localStorage.removeItem(STORAGE_KEY);
+        return null;
+      }
+      return data;
+    } catch(e) { return null; }
+  }
+
+  /* ── Button-Events ── */
+  document.getElementById('cb-accept-all').addEventListener('click', function() {
+    chkMktg.checked = true;
+    saveConsent(true);
+  });
+  document.getElementById('cb-reject-all').addEventListener('click', function() {
+    chkMktg.checked = false;
+    saveConsent(false);
+  });
+  document.getElementById('cb-save').addEventListener('click', function() {
+    saveConsent(chkMktg.checked);
+  });
+
+  /* ── Footer-Link: Banner erneut öffnen ── */
+  const settingsLink = document.getElementById('cookie-settings');
+  if (settingsLink) {
+    settingsLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      const saved = loadSaved();
+      if (saved) chkMktg.checked = saved.marketing;
+      openBanner();
+    });
+  }
+
+  /* ── Initialisierung ── */
+  const saved = loadSaved();
+  if (saved) {
+    // Bekannter Nutzer: Einwilligung sofort anwenden, kein Banner
+    applyConsent(saved.marketing);
+  } else {
+    // Neuer Nutzer: Banner zeigen
+    setTimeout(openBanner, 600);
+  }
+
+})();
+
 /* ── Progress ── */
 const prog = document.getElementById('progress');
 window.addEventListener('scroll', () => { prog.style.width = (scrollY / (document.body.scrollHeight - innerHeight) * 100) + '%'; }, { passive: true });
