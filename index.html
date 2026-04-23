@@ -1234,15 +1234,14 @@
       'ad_storage':         marketing ? 'granted' : 'denied',
       'ad_user_data':       marketing ? 'granted' : 'denied',
       'ad_personalization': marketing ? 'granted' : 'denied',
-      'analytics_storage':  'denied'
+      'analytics_storage':  marketing ? 'granted' : 'denied'
     });
 
-    // 3) security_storage immer granted (Sicherheitsfunktionen)
-    //    functionality + personalization bleiben denied (nicht genutzt)
+    // 3) Datenschutzparameter: alle denied (security_storage ebenfalls)
     gtag('consent', 'update', {
-      'functionality_storage':   'denied',
-      'personalization_storage': 'denied',
-      'security_storage':        'granted'
+      'functionality_storage':   marketing ? 'granted' : 'denied',
+      'personalization_storage': marketing ? 'granted' : 'denied',
+      'security_storage':        'denied'
     });
 
     // 4) Ereignis in dataLayer → GTM Trigger kann differenziert reagieren
