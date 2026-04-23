@@ -13,7 +13,7 @@
     'functionality_storage': 'denied',
     'personalization_storage': 'denied',
     'security_storage': 'granted',
-    'wait_for_update': 1000
+'wait_for_update': 500
 });
 </script>
 <!-- End Consent Mode Standard -->
@@ -565,7 +565,38 @@
     </div>
 </div>
 
-
+<script>
+// Cookie Banner
+function cookieAccept() {
+    localStorage.setItem('cookie-consent', 'accepted');
+    document.getElementById('cookie-banner').classList.remove('visible');
+    gtag('consent', 'update', {
+        'ad_storage': 'granted',
+        'ad_user_data': 'granted',
+        'ad_personalization': 'granted',
+        'analytics_storage': 'granted'
+        'functionality_storage': 'granted',
+    'personalization_storage': 'granted',
+    'security_storage': 'granted'
+    });
+    loadGTM();
+}
+function cookieDecline() {
+    localStorage.setItem('cookie-consent', 'declined');
+    document.getElementById('cookie-banner').classList.remove('visible');
+    // GTM wird nicht geladen
+}
+window.addEventListener('DOMContentLoaded', function() {
+    var consent = localStorage.getItem('cookie-consent');
+    if (!consent) {
+        setTimeout(function() {
+            document.getElementById('cookie-banner').classList.add('visible');
+        }, 1000);
+    } else if (consent === 'accepted') {
+        loadGTM();
+    }
+});
+</script>
 
 <div id="progress"></div>
 <div id="cursor"></div>
@@ -1149,7 +1180,7 @@
         <p>
           Diese Website verwendet Cookies und ähnliche Technologien.
           Technisch notwendige Cookies sind immer aktiv.
-          Google Tag Manager und Google Ads Conversion Tracking kannst du einzeln aktivieren – standardmäßig sind beide deaktiviert.
+          Marketing-Cookies (Google Tag Manager, Google Ads) setzen wir nur mit deiner Zustimmung.
           Mehr Infos in unserer <a href="datenschutz.html">Datenschutzerklärung</a>.
         </p>
       </div>
@@ -1167,18 +1198,7 @@
           <span>Grundfunktionen der Website — immer aktiv, keine Einwilligung erforderlich</span>
         </div>
       </div>
-      <!-- Google Tag Manager -->
-      <div class="cb-toggle-row">
-        <label class="cb-switch">
-          <input type="checkbox" id="cb-gtm">
-          <span class="cb-slider"></span>
-        </label>
-        <div class="cb-toggle-label">
-          <strong>Google Tag Manager</strong>
-          <span>Lädt den Tag Manager zur Verwaltung von Website-Tags — standardmäßig deaktiviert</span>
-        </div>
-      </div>
-      <!-- Google Ads / Marketing -->
+      <!-- Marketing -->
       <div class="cb-toggle-row">
         <label class="cb-switch">
           <input type="checkbox" id="cb-marketing">
@@ -1186,7 +1206,7 @@
         </label>
         <div class="cb-toggle-label">
           <strong>Marketing &amp; Werbung</strong>
-          <span>Google Ads Conversion Tracking &amp; personalisierte Werbung — setzt Google Tag Manager voraus</span>
+          <span>Google Tag Manager, Google Ads Conversion Tracking — standardmäßig deaktiviert</span>
         </div>
       </div>
     </div>
@@ -1211,58 +1231,36 @@
 
   const banner   = document.getElementById('cb-banner');
   const overlay  = document.getElementById('cb-overlay');
-  const chkGtm   = document.getElementById('cb-gtm');
   const chkMktg  = document.getElementById('cb-marketing');
 
-  /* ── Abhängigkeit: Marketing setzt GTM voraus ── */
-  chkMktg.addEventListener('change', function() {
-    if (this.checked) chkGtm.checked = true;
-  });
-  chkGtm.addEventListener('change', function() {
-    if (!this.checked) chkMktg.checked = false;
-  });
-
-  /* ── Consent Mode v2: GTM und Google Ads getrennt steuern ── */
-  function applyConsent(gtm, marketing) {
-
-    // 1) GTM nur laden wenn Nutzer zugestimmt hat
-    if (gtm) loadGTM();
-
-    // 2) Google Ads Parameter: nur bei Marketing-Zustimmung granted
-    //    (und nur sinnvoll wenn GTM auch aktiv ist)
+  /* ── Consent Mode v2: alle 4 Signale updaten ── */
+  function applyConsent(marketing) {
+    const val = marketing ? 'granted' : 'denied';
     gtag('consent', 'update', {
-      'ad_storage':         marketing ? 'granted' : 'denied',
-      'ad_user_data':       marketing ? 'granted' : 'denied',
-      'ad_personalization': marketing ? 'granted' : 'denied',
-      'analytics_storage':  marketing ? 'granted' : 'denied'
+      'ad_storage':        val,
+      'ad_user_data':      val,
+      'ad_personalization': val,
+      'analytics_storage': val
     });
-
-    // 3) Funktionale Parameter: bei GTM-Zustimmung granted, sonst denied
-    gtag('consent', 'update', {
-      'functionality_storage':   gtm ? 'granted' : 'denied',
-      'personalization_storage': gtm ? 'granted' : 'denied'
-    });
-
-    // 4) Ereignis in dataLayer → GTM Trigger kann differenziert reagieren
+    // Ereignis in dataLayer schicken → GTM Trigger kann darauf reagieren
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
-      'event':             'consent_update',
-      'gtm_consent':       gtm       ? 'granted' : 'denied',
+      'event': 'consent_update',
       'marketing_consent': marketing ? 'granted' : 'denied'
     });
+    if (marketing) loadGTM();
   }
 
   /* ── Einwilligung speichern ── */
-  function saveConsent(gtm, marketing) {
+  function saveConsent(marketing) {
     const data = {
-      gtm:        gtm,
       marketing:  marketing,
       timestamp:  new Date().toISOString(),
-      version:    '2.0',
+      version:    '1.0',
       expires:    Date.now() + EXPIRY_DAYS * 86400000
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    applyConsent(gtm, marketing);
+    applyConsent(marketing);
     closeBanner();
   }
 
@@ -1303,20 +1301,15 @@
 
   /* ── Button-Events ── */
   document.getElementById('cb-accept-all').addEventListener('click', function() {
-    chkGtm.checked   = true;
-    chkMktg.checked  = true;
-    saveConsent(true, true);
+    chkMktg.checked = true;
+    saveConsent(true);
   });
   document.getElementById('cb-reject-all').addEventListener('click', function() {
-    chkGtm.checked   = false;
-    chkMktg.checked  = false;
-    saveConsent(false, false);
+    chkMktg.checked = false;
+    saveConsent(false);
   });
   document.getElementById('cb-save').addEventListener('click', function() {
-    // Marketing ohne GTM ist nicht möglich – Sicherheitsnetz
-    const gtm      = chkGtm.checked;
-    const marketing = chkMktg.checked && gtm;
-    saveConsent(gtm, marketing);
+    saveConsent(chkMktg.checked);
   });
 
   /* ── Footer-Link: Banner erneut öffnen ── */
@@ -1325,10 +1318,7 @@
     settingsLink.addEventListener('click', function(e) {
       e.preventDefault();
       const saved = loadSaved();
-      if (saved) {
-        chkGtm.checked  = saved.gtm      || false;
-        chkMktg.checked = saved.marketing || false;
-      }
+      if (saved) chkMktg.checked = saved.marketing;
       openBanner();
     });
   }
@@ -1337,7 +1327,7 @@
   const saved = loadSaved();
   if (saved) {
     // Bekannter Nutzer: Einwilligung sofort anwenden, kein Banner
-    applyConsent(saved.gtm || false, saved.marketing || false);
+    applyConsent(saved.marketing);
   } else {
     // Neuer Nutzer: Banner zeigen
     setTimeout(openBanner, 600);
@@ -1381,39 +1371,35 @@ const cio = new IntersectionObserver(entries => entries.forEach(e=>{
 document.querySelectorAll('.counter').forEach(el=>cio.observe(el));
 
 /* ── Testimonials Slider ── */
-const track=document.getElementById('testiTrack');
-if (track) {
-  const cards=[...track.querySelectorAll('.testi-card')];
-  let slide=0;
-  function cols(){ return window.innerWidth>1024?3:window.innerWidth>640?2:1; }
-  function updateSlider(){
-      if(window.innerWidth<=768){
-          track.style.display='block';
-          track.style.transform='none';
-          track.style.transition='none';
-          track.style.flexDirection='';
-          track.parentElement.style.overflow='visible';
-          track.closest('.testi').style.overflow='visible';
-          cards.forEach(card=>{
-              card.style.display='block';
-              card.style.width='100%';
-              card.style.minWidth='0';
-              card.style.marginBottom='1.5rem';
-              card.style.transform='none';
-          });
-          return;
-      }
-      track.style.cssText='';
-      const c=cols(), gap=32, w=(track.parentElement.offsetWidth-gap*(c-1))/c;
-      cards.forEach(card=>{ card.style.minWidth=w+'px'; });
-      slide=Math.min(slide,Math.max(0,cards.length-c));
-      track.style.transform=`translateX(-${slide*(w+gap)}px)`;
-  }
-  const tNext=document.getElementById('tNext'), tPrev=document.getElementById('tPrev');
-  if(tNext) tNext.addEventListener('click',()=>{ slide=slide<cards.length-cols()?slide+1:0; updateSlider(); });
-  if(tPrev) tPrev.addEventListener('click',()=>{ slide=slide>0?slide-1:cards.length-cols(); updateSlider(); });
-  window.addEventListener('resize',updateSlider); updateSlider();
+const track=document.getElementById('testiTrack'), cards=[...track.querySelectorAll('.testi-card')];
+let slide=0;
+function cols(){ return window.innerWidth>1024?3:window.innerWidth>640?2:1; }
+function updateSlider(){
+    if(window.innerWidth<=768){
+        track.style.display='block';
+        track.style.transform='none';
+        track.style.transition='none';
+        track.style.flexDirection='';
+        track.parentElement.style.overflow='visible';
+        track.closest('.testi').style.overflow='visible';
+        cards.forEach(card=>{
+            card.style.display='block';
+            card.style.width='100%';
+            card.style.minWidth='0';
+            card.style.marginBottom='1.5rem';
+            card.style.transform='none';
+        });
+        return;
+    }
+    track.style.cssText='';
+    const c=cols(), gap=32, w=(track.parentElement.offsetWidth-gap*(c-1))/c;
+    cards.forEach(card=>{ card.style.minWidth=w+'px'; });
+    slide=Math.min(slide,Math.max(0,cards.length-c));
+    track.style.transform=`translateX(-${slide*(w+gap)}px)`;
 }
+document.getElementById('tNext').addEventListener('click',()=>{ slide=slide<cards.length-cols()?slide+1:0; updateSlider(); });
+document.getElementById('tPrev').addEventListener('click',()=>{ slide=slide>0?slide-1:cards.length-cols(); updateSlider(); });
+window.addEventListener('resize',updateSlider); updateSlider();
 
 /* ── Magnetic Buttons ── */
 document.querySelectorAll('.btn-gold,.btn-purple').forEach(btn=>{
