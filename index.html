@@ -1225,8 +1225,9 @@
   /* ── Consent Mode v2: GTM und Google Ads getrennt steuern ── */
   function applyConsent(gtm, marketing) {
 
-    // 1) GTM nur laden wenn Nutzer zugestimmt hat
-    if (gtm) loadGTM();
+    // 1) GTM immer laden – GTM selbst ist datenschutzneutral
+    //    Tags feuern nur wenn Consent granted ist
+    loadGTM();
 
     // 2) Google Ads Parameter: nur bei Marketing-Zustimmung granted
     //    analytics_storage bleibt denied (kein Analytics-Tool aktiv)
