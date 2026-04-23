@@ -12,24 +12,24 @@
     'analytics_storage': 'denied',
     'functionality_storage': 'denied',
     'personalization_storage': 'denied',
-    'security_storage': 'granted',
+    'security_storage': 'denied',
     'wait_for_update': 1000
 });
 </script>
 <!-- End Consent Mode Standard -->
-    <!-- Google Tag Manager – wird nur nach Zustimmung geladen -->
+    <!-- Google Tag Manager – lädt sofort, Consent Mode v2 steuert die Tags -->
     <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
-    function loadGTM() {
-        if (window.gtmLoaded) return;
-        window.gtmLoaded = true;
-        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-P24JFSZD');
-    }
+    // GTM sofort laden – Consent Default (alle denied) ist bereits gesetzt
+    // Tags feuern nur wenn Nutzer zustimmt (wird durch Consent Mode v2 gesteuert)
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-P24JFSZD');
+    // Stub damit loadGTM() Aufrufe im Banner-Code keine Fehler werfen
+    function loadGTM() {}
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1229,18 +1229,20 @@
     if (gtm) loadGTM();
 
     // 2) Google Ads Parameter: nur bei Marketing-Zustimmung granted
-    //    (und nur sinnvoll wenn GTM auch aktiv ist)
+    //    analytics_storage bleibt denied (kein Analytics-Tool aktiv)
     gtag('consent', 'update', {
       'ad_storage':         marketing ? 'granted' : 'denied',
       'ad_user_data':       marketing ? 'granted' : 'denied',
       'ad_personalization': marketing ? 'granted' : 'denied',
-      'analytics_storage':  marketing ? 'granted' : 'denied'
+      'analytics_storage':  'denied'
     });
 
-    // 3) Funktionale Parameter: bei GTM-Zustimmung granted, sonst denied
+    // 3) security_storage immer granted (Sicherheitsfunktionen)
+    //    functionality + personalization bleiben denied (nicht genutzt)
     gtag('consent', 'update', {
-      'functionality_storage':   gtm ? 'granted' : 'denied',
-      'personalization_storage': gtm ? 'granted' : 'denied'
+      'functionality_storage':   'denied',
+      'personalization_storage': 'denied',
+      'security_storage':        'granted'
     });
 
     // 4) Ereignis in dataLayer → GTM Trigger kann differenziert reagieren
